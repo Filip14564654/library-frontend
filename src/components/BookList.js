@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogActions,
   Grid,
   Box
 } from "@mui/material";
@@ -88,7 +89,7 @@ function BookList() {
 
     axios
       .post(
-        `http://localhost:8080/api/books/borrow/${bookId}?userName=${userName}`
+        `http://localhost:8080/api/loans/borrow/${bookId}?userName=${userName}`
       )
       .then(() => {
         setBorrowUsers((prevState) => ({ ...prevState, [bookId]: "" }));
@@ -163,9 +164,9 @@ function BookList() {
         </Grid>
       )}
 
-      {editBook && (
-        <Box sx={{ mt: 4, maxWidth: 400 }}>
-          <Typography variant="h6">✏️ Úprava knihy</Typography>
+      <Dialog open={Boolean(editBook)} onClose={() => setEditBook(null)}>
+        <DialogTitle>✏️ Úprava knihy</DialogTitle>
+        <DialogContent>
           <TextField
             fullWidth
             margin="normal"
@@ -180,16 +181,16 @@ function BookList() {
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Button variant="contained" onClick={handleUpdate}>
-              💾 Uložit
-            </Button>
-            <Button variant="outlined" onClick={() => setEditBook(null)}>
-              ❌ Zrušit
-            </Button>
-          </Box>
-        </Box>
-      )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleUpdate} variant="contained">
+            💾 Uložit
+          </Button>
+          <Button onClick={() => setEditBook(null)} variant="outlined">
+            ❌ Zrušit
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog open={showModal} onClose={() => setShowModal(false)}>
         <DialogTitle>📜 Historie výpůjček: {selectedBookTitle}</DialogTitle>
