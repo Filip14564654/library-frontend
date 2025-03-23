@@ -11,7 +11,7 @@ function BookForm({ refreshBooks }) {
             .then(() => {
                 setTitle("");
                 setAuthor("");
-                refreshBooks();
+                // refreshBooks();
             })
             .catch(error => console.error(error));
     };
